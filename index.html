@@ -460,7 +460,16 @@
                   <div className="space-y-6">
                     <div className="bg-white rounded-lg shadow p-4 sm:p-6">
                       <h2 className="text-xl sm:text-2xl font-bold mb-2">{editingInvoice ? 'Modifica Fattura' : 'Nuova Fattura'}</h2>
-                      <p className="text-sm text-gray-500 mb-4">Acquisti normali con sconto 10%</p>
+                      <div className="flex items-center gap-2 mb-4">
+                        <p className="text-sm text-gray-500">Acquisti normali con sconto 10%</p>
+                        <div className="relative group info-icon">
+                          <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
+                          <div className="absolute left-0 top-6 hidden group-hover:block z-10 w-64 px-3 py-2 text-xs text-white bg-gray-700 rounded-lg shadow-xl">
+                            Inserisci qui SOLO gli acquisti con "Sconto speciale a voi riservato" (10%).<br/><br/>NON inserire le lenti "Prodotto già fatturato" - quelle sono già conteggiate nel Carnet.
+                            <div className="absolute -top-1 left-2 w-2 h-2 bg-gray-700 transform rotate-45"></div>
+                          </div>
+                        </div>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                         <div><label className="block text-sm font-medium mb-1">Data</label><input type="date" value={invoiceDate} onChange={e => setInvoiceDate(e.target.value)} className="w-full px-3 py-2 border rounded-lg" /></div>
                         <div><label className="block text-sm font-medium mb-1">Numero</label><input type="text" value={invoiceNumber} onChange={e => setInvoiceNumber(e.target.value)} placeholder="es. 253013521" className="w-full px-3 py-2 border rounded-lg" /></div>
@@ -531,7 +540,16 @@
                   <div className="space-y-6">
                     <div className="bg-white rounded-lg shadow p-4 sm:p-6">
                       <h2 className="text-xl sm:text-2xl font-bold mb-2">{editingCarnet ? 'Modifica Carnet' : 'Nuovo Carnet'}</h2>
-                      <p className="text-sm text-gray-500 mb-4">Acquisti prepagati PURCHASE BANK</p>
+                      <div className="flex items-center gap-2 mb-4">
+                        <p className="text-sm text-gray-500">Acquisti prepagati PURCHASE BANK</p>
+                        <div className="relative group info-icon">
+                          <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
+                          <div className="absolute left-0 top-6 hidden group-hover:block z-10 w-64 px-3 py-2 text-xs text-white bg-gray-700 rounded-lg shadow-xl">
+                            Inserisci qui gli acquisti prepagati con prezzi scontati.<br/><br/>Es: 30x AVAIRA VITALITY 6PK @ €13,30
+                            <div className="absolute -top-1 left-2 w-2 h-2 bg-gray-700 transform rotate-45"></div>
+                          </div>
+                        </div>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                         <div><label className="block text-sm font-medium mb-1">Data</label><input type="date" value={carnetDate} onChange={e => setCarnetDate(e.target.value)} className="w-full px-3 py-2 border rounded-lg" /></div>
                         <div><label className="block text-sm font-medium mb-1">Numero</label><input type="text" value={carnetNumber} onChange={e => setCarnetNumber(e.target.value)} placeholder="es. 253013523" className="w-full px-3 py-2 border rounded-lg" /></div>
@@ -610,7 +628,16 @@
                   <div className="space-y-6">
                     <div className="bg-white rounded-lg shadow p-4 sm:p-6">
                       <h2 className="text-xl sm:text-2xl font-bold mb-2">{editingCredit ? 'Modifica Nota' : 'Nuova Nota di Credito'}</h2>
-                      <p className="text-sm text-gray-500 mb-4">Reso con indicazione prodotto specifico</p>
+                      <div className="flex items-center gap-2 mb-4">
+                        <p className="text-sm text-gray-500">Reso con indicazione prodotto specifico</p>
+                        <div className="relative group info-icon">
+                          <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" /></svg>
+                          <div className="absolute left-0 top-6 hidden group-hover:block z-10 w-64 px-3 py-2 text-xs text-white bg-gray-700 rounded-lg shadow-xl">
+                            Inserisci il prodotto reso e il prezzo a cui era stato acquistato (carnet o listino).<br/><br/>Il reso verrà sottratto dal costo di quel prodotto specifico.
+                            <div className="absolute -top-1 left-2 w-2 h-2 bg-gray-700 transform rotate-45"></div>
+                          </div>
+                        </div>
+                      </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
                         <div><label className="block text-sm font-medium mb-1">Data</label><input type="date" value={creditDate} onChange={e => setCreditDate(e.target.value)} className="w-full px-3 py-2 border rounded-lg" /></div>
                         <div><label className="block text-sm font-medium mb-1">Prodotto</label><select value={creditProduct} onChange={e => setCreditProduct(e.target.value)} className="w-full px-3 py-2 border rounded-lg"><option value="">Seleziona...</option>{PRODUCTS.map(p => <option key={p} value={p}>{p}</option>)}</select></div>
