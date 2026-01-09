@@ -184,7 +184,7 @@
           };
           
           const deleteInvoice = id => setConfirmModal({ show: true, title: 'Elimina fattura', message: 'Sei sicuro?', onConfirm: async () => { setConfirmModal({ show: false }); await saveToGoogleSheets('deleteInvoice', { id }); } });
-          const startEditInvoice = inv => { setEditingInvoice(inv); setInvoiceDate(inv.date); setInvoiceNumber(inv.number); setShippingCost(inv.shippingCost || ''); setInvoiceItems(inv.items.map(it => ({ product: it.product, quantity: it.quantity, price: it.priceGross, discount: it.discount || '10', vat: it.vat || '4' }))); setActiveTab('invoices'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+          const startEditInvoice = inv => { setEditingInvoice(inv); setInvoiceDate(inv.date); setInvoiceNumber(inv.number); setShippingCost(inv.shippingCost || ''); setInvoiceItems(inv.items.map(it => ({ product: it.product, quantity: it.quantity, price: it.priceGross, discount: it.discount !== undefined ? it.discount : '10', vat: it.vat || '4' }))); setActiveTab('invoices'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
           
           // Carnet
           const addCarnetItem = () => setCarnetItems([...carnetItems, { product: '', quantity: '', priceUnit: '', vat: '4' }]);
@@ -581,19 +581,24 @@
                     <div className="bg-white rounded-lg shadow p-6">
                       <h2 className="text-xl font-bold mb-4">Fatture ({invoices.length})</h2>
                       <div className="space-y-3">
-                        {invoices.sort((a, b) => b.date.localeCompare(a.date)).map(inv => (
-                          <div key={inv.id} className="border rounded-lg p-4 hover:bg-gray-50 flex justify-between items-start">
-                            <div>
-                              <div className="font-bold">{inv.number} - {inv.date}</div>
-                              {inv.shippingCost > 0 && <div className="text-sm text-gray-500">Spese spedizione: €{parseFloat(inv.shippingCost).toFixed(2)}</div>}
-                              <div className="text-sm text-gray-600 mt-1">{inv.items.map((it, idx) => <div key={idx}>• {it.product}: {it.quantity} pz @ €{it.priceGross} (-{it.discount}%)</div>)}</div>
+                        {invoices.sort((a, b) => b.date.localeCompare(a.date)).map(inv => {
+                          const prodTotal = inv.items.reduce((s, it) => s + (parseFloat(it.quantity) || 0) * (parseFloat(it.priceNet) || 0) * (1 + (parseFloat(it.vat) || 4) / 100), 0);
+                          const shipping = (parseFloat(inv.shippingCost) || 0) * 1.22;
+                          const total = prodTotal + shipping;
+                          return (
+                            <div key={inv.id} className="border rounded-lg p-4 hover:bg-gray-50 flex justify-between items-start">
+                              <div>
+                                <div className="font-bold">{inv.number} - {inv.date} <span className="text-blue-600 ml-2">€ {total.toFixed(2)}</span></div>
+                                {inv.shippingCost > 0 && <div className="text-sm text-gray-500">Spese spedizione: €{parseFloat(inv.shippingCost).toFixed(2)}</div>}
+                                <div className="text-sm text-gray-600 mt-1">{inv.items.map((it, idx) => <div key={idx}>• {it.product}: {it.quantity} pz @ €{it.priceGross} (-{it.discount}%)</div>)}</div>
+                              </div>
+                              <div className="flex gap-2">
+                                <button onClick={() => startEditInvoice(inv)} className="text-blue-600 hover:bg-blue-50 p-2 rounded"><IconEdit /></button>
+                                <button onClick={() => deleteInvoice(inv.id)} className="text-red-600 hover:bg-red-50 p-2 rounded"><IconTrash /></button>
+                              </div>
                             </div>
-                            <div className="flex gap-2">
-                              <button onClick={() => startEditInvoice(inv)} className="text-blue-600 hover:bg-blue-50 p-2 rounded"><IconEdit /></button>
-                              <button onClick={() => deleteInvoice(inv.id)} className="text-red-600 hover:bg-red-50 p-2 rounded"><IconTrash /></button>
-                            </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                         {invoices.length === 0 && <div className="text-center py-4 text-gray-500">Nessuna fattura</div>}
                       </div>
                     </div>
